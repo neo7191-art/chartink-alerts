@@ -1,7 +1,7 @@
 name: Chartink to Telegram
 on:
-  webhook:
-    method: post
+  repository_dispatch:
+    types: [chartink_alert]
 jobs:
   notify:
     name: Send Telegram Message
@@ -11,7 +11,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          STOCK_SYMBOL: ${{ on.webhook.outputs.body.symbol }}
+          STOCK_SYMBOL: ${{ github.event.client_payload.symbol }}
         run: |
           curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
           -d "chat_id=$TELEGRAM_CHAT_ID" \
