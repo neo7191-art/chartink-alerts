@@ -12,7 +12,8 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          STOCK_SYMBOL: ${{ github.event.client_payload.symbol }}
+          # This is the corrected line to grab the symbol from Chartink's data
+          STOCK_SYMBOL: ${{ github.event.client_payload.scan_data[0].symbol || 'Unknown Stock' }}
         run: |
           curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
           -d "chat_id=$TELEGRAM_CHAT_ID" \
