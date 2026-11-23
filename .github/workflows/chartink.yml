@@ -1,5 +1,6 @@
 name: Chartink to Telegram
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: [chartink_alert]
 jobs:
